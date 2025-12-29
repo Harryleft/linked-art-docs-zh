@@ -1,248 +1,223 @@
-# Linked Art 中文翻译项目
+# Linked Art 中文文档 - 可交互式学习环境
 
-## 项目概述
+## 为什么需要这个项目？
 
-本项目是 Linked Art 文档的中文翻译版本，同时提供可交互的 Jupyter Notebook 学习环境。Linked Art 是一个基于 Linked Open Usable Data (LOUD) 的文化遗产描述数据模型，专注于艺术品描述，同时也包括档案和书目材料。
+想象一下，你正在为一家博物馆建立数字化档案系统。你需要记录：每件艺术品是谁创作的、何时何地完成、经历过哪些收藏者的流转、参加过哪些展览...如果把这些信息分散在不同的表格和数据库中，不仅难以维护，更无法与其他机构共享数据。
 
-## 项目状态
+这就是 Linked Art 要解决的问题——它提供了一套**标准的数据模型**，让文化遗产信息的记录和共享变得简单。就像图书馆使用 ISBN 标准来标识书籍一样，Linked Art 让博物馆、美术馆、档案馆可以用同一种"语言"来描述他们的收藏。
 
-**当前版本**: 翻译完成 + Jupyter Notebook 交互版本
-**原文版本**: Linked Art 1.0
-**翻译进度**: ✅ 187 个文档已翻译完成
-**Notebook**: ✅ 257 个交互式 Notebook 已生成
+## 这个项目提供了什么？
 
-### 完成内容
+**1. 完整的中文翻译**
+- 187 个文档的中文翻译，覆盖数据模型、API 规范、实施指南
+- 所有翻译遵循博物馆学界和艺术史领域的专业术语标准
 
-- ✅ 中文翻译文档 (docs-zh/) - 187 个文件
-- ✅ 中文版 Jupyter Notebook (notebooks/) - 70 个文件
-- ✅ 英文版 Jupyter Notebook (notebooks-en/) - 187 个文件
-- ✅ Markdown 转 Notebook 转换脚本 (scripts/)
-- ✅ 中文术语对照表
-- ✅ 完整的导航索引
+**2. 可交互的 Jupyter Notebook**
+- 257 个 Notebook，包含所有代码示例
+- 每个代码块都可以直接运行、修改、实验
+- 自动显示生成的 JSON-LD 数据，直观理解数据结构
+
+**3. 一键转换工具**
+- 提供 Python 脚本，可随时将 Markdown 转换为 Notebook
+- 支持批量转换，便于自定义学习材料
+
+## 快速开始
+
+### 1. 安装依赖
+
+打开终端，执行以下命令：
+
+```bash
+# 安装 Python 依赖
+pip install cromulent jupyter
+```
+
+**安装说明**：
+- `cromulent` - Linked Art 的 Python 库，用于生成文化遗产数据
+- `jupyter` - 交互式 Notebook 环境
+
+### 2. 打开学习环境
+
+根据你的偏好选择：
+
+**中文版**：
+```bash
+jupyter lab notebooks
+```
+然后在浏览器中打开 `00-导航索引.ipynb`
+
+**英文版**：
+```bash
+jupyter lab notebooks-en
+```
+
+### 3. 运行第一个代码示例
+
+打开任意 Notebook，你会看到类似这样的代码：
+
+```python
+# 环境设置（每个 Notebook 开头都有）
+from cromulent import model, vocab
+
+# 创建一件艺术品对象
+artwork = model.HumanMadeObject(
+    ident="painting/1",
+    label="星空"
+)
+
+# 显示生成的 JSON 数据
+print(model.factory.toString(artwork, compact=False))
+```
+
+运行后，你会看到结构化的 JSON 输出：
+
+```json
+{
+  "@context": "https://linked.art/ns/v1/linked-art.json",
+  "id": "http://test.com/museum/HumanMadeObject/painting/1",
+  "type": "HumanMadeObject",
+  "_label": "星空"
+}
+```
 
 ## 项目结构
 
 ```
 linked-art-docs-zh/
-├── docs/                        # 原始英文文档 (保留)
-│   ├── index.md
-│   ├── model/                   # 数据模型文档
-│   ├── api/                     # API 文档
-│   └── ...
-│
-├── docs-zh/                     # 中文翻译文档 ⭐ NEW
-│   ├── index.md
-│   ├── model/
-│   ├── api/
-│   └── ... (187 个翻译文件)
-│
-├── notebooks/                   # 中文版 Jupyter Notebook ⭐ NEW
-│   ├── 00-导航索引.ipynb
-│   ├── model/
-│   └── api/1.0/ (70 个文件)
-│
-├── notebooks-en/                # 英文版 Jupyter Notebook ⭐ NEW
-│   ├── 00-导航索引.ipynb
-│   ├── model/
-│   ├── api/
-│   └── ... (187 个文件)
-│
-├── scripts/                     # 转换工具 ⭐ NEW
-│   └── md_to_ipynb_converter.py
-│
-├── 术语对照表.md                # 中文术语标准
-├── 翻译任务计划.md             # 翻译任务管理
-├── CLAUDE.md                   # 项目配置
-├── README.md                   # 本文件
-└── LICENSE                     # CC BY 4.0
+├── docs/              # 原始英文文档（保留）
+├── docs-zh/           # 中文翻译
+├── notebooks/         # 中文版 Notebook
+├── notebooks-en/      # 英文版 Notebook
+├── scripts/           # 转换工具
+└── 术语对照表.md      # 专业术语标准
 ```
 
-## Jupyter Notebook 使用指南
+## 核心概念速览
 
-### 环境要求
+### 数据模型是什么？
 
-```bash
-# 安装 Python 库
-pip install cromulent
-pip install jupyter
-```
+数据模型定义了如何描述一个文化遗产对象。例如，描述一幅画作需要：
 
-### 快速开始
+| 属性 | 说明 | Linked Art 术语 |
+|------|------|-----------------|
+| **创作** | 谁在何时何地创作了它 | Production |
+| **材质** | 用什么材料制成 | Material |
+| **尺寸** | 有多大 | Dimension |
+| **流传** | 曾被谁收藏 | Provenance |
+| **展览** | 参加过哪些展览 | Exhibition |
 
-**中文版入口**: `notebooks/00-导航索引.ipynb`
-**英文版入口**: `notebooks-en/00-导航索引.ipynb`
+### 为什么选择 Linked Art？
 
-### Notebook 特性
+- **标准化**：被 Getty、Smithsonian、Yale 等机构采用
+- **可扩展**：可以记录从简单到复杂的各种信息
+- **互操作**：数据可以在不同系统间无缝交换
+- **免费开源**：遵循 CC BY 4.0 许可证
 
-| 特性 | 说明 |
-|------|------|
-| **交互式代码** | 所有 crom 代码示例可直接运行和修改 |
-| **自动导入** | 每个代码块自动添加 `from cromulent import model, vocab` |
-| **JSON 输出** | 自动显示生成的 JSON-LD 数据 |
-| **独立行显示** | 代码按行独立显示，便于编辑 |
-| **环境设置** | 自动配置 base_url 以获得清晰的输出 |
+## 学习路径建议
 
-### 运行示例
+### 初学者（推荐）
+
+1. **从入门开始**：`notebooks/00-导航索引.ipynb`
+2. **理解核心概念**：`notebooks/model/index.ipynb`
+3. **实践创建对象**：`notebooks/model/object/production.ipynb`
+
+### 进阶用户
+
+1. **深入数据模型**：`notebooks/model/provenance/index.ipynb`
+2. **学习 API 使用**：`notebooks/api/1.0/endpoint/index.ipynb`
+3. **构建自己的应用**：参考 `notebooks/cookbook/`
+
+### 开发者
+
+1. **阅读 API 文档**：`notebooks-en/api/1.0/index.ipynb`
+2. **查看实现示例**：`notebooks-en/example/index.ipynb`
+3. **使用转换工具**：参考 `scripts/md_to_ipynb_converter.py`
+
+## 常见任务
+
+### 创建一个新的艺术品记录
 
 ```python
-# 每个 Notebook 开头会自动设置环境
 from cromulent import model, vocab
 
 # 创建对象
-obj = model.HumanMadeObject(ident="example", label="示例对象")
-print(model.factory.toString(obj, compact=False))
+painting = model.HumanMadeObject(
+    ident="mona-lisa",
+    label="蒙娜丽莎"
+)
+
+# 添加创作信息
+production = model.Production()
+painting.produced_by = production
+
+# 添加创作者
+leonardo = model.Person(
+    ident="leonardo-da-vinci",
+    label="列奥纳多·达·芬奇"
+)
+production.carried_out_by = leonardo
+
+# 查看结果
+print(model.factory.toString(painting, compact=False))
 ```
 
-## 翻译资源
-
-### 📋 术语对照表
-项目根目录下的 `术语对照表.md` 文件提供了：
-- 11个类别的专业术语翻译
-- 翻译原则和使用指南
-- 专业术语的选择依据
-- 特殊情况的处理建议
-
-### 📚 文档内容
-
-| 类别 | 英文版 | 中文版 | Notebook |
-|------|--------|--------|----------|
-| **数据模型** | 37 个文件 | ✅ 37 个 | ✅ 中英文版 |
-| **API 规范** | 47 个文件 | ✅ 47 个 | ✅ 中英文版 |
-| **HAL 关系** | 92 个文件 | ✅ 92 个 | ✅ 中英文版 |
-| **其他文档** | 11 个文件 | ✅ 11 个 | ✅ 中英文版 |
-
-### 🎯 学习路径建议
-
-**初学者**:
-1. 从 [数据模型概述](notebooks/model/index.ipynb) 开始
-2. 学习 [基础模式](notebooks/model/base/index.ipynb)
-3. 了解 [对象](notebooks/model/object/index.ipynb) 和 [行动者](notebooks/model/actor/index.ipynb)
-
-**进阶用户**:
-1. 深入 [流传历史](notebooks/model/provenance/index.ipynb)
-2. 学习 [API 端点](notebooks/api/1.0/endpoint/index.ipynb)
-3. 掌握 [共享结构](notebooks/api/1.0/shared/index.ipynb)
-
-**高级用户**:
-1. 研究 [词汇表](notebooks/model/vocab/index.ipynb)
-2. 探索 [类分析](notebooks/model/profile/class_analysis.ipynb)
-3. 理解 [JSON-LD 扩展](notebooks/api/1.0/json-ld/extensions.ipynb)
-
-## 转换工具使用
-
-### Markdown 转 Notebook
-
-项目提供了完整的转换脚本 `scripts/md_to_ipynb_converter.py`：
+### 转换你自己的 Markdown 文档
 
 ```python
+# 安装必要依赖
+pip install nbformat
+
 # 转换单个文件
 python -c "from scripts.md_to_ipynb_converter import convert_file; \
-    convert_file('docs/model/index.md', 'notebooks/model/index.ipynb')"
+    convert_file('你的文档.md', '输出.ipynb')"
 
 # 批量转换目录
 python -c "from scripts.md_to_ipynb_converter import convert_directory; \
-    convert_directory('docs/model', 'notebooks/model')"
+    convert_directory('源目录', '目标目录')"
 ```
 
-### 转换特性
+## 术语对照（重要）
 
-- ✅ 自动解析 YAML front matter
-- ✅ 识别 crom 代码块并增强
-- ✅ 添加自动导入和 JSON 输出
-- ✅ 保持文档结构完整
-- ✅ 支持中英文文档
+在阅读本文档时，以下术语会频繁出现：
 
-## 翻译指南
+| 英文 | 中文 | 说明 |
+|------|------|------|
+| Linked Art | Linked Art | 保持原文，项目名称 |
+| HumanMadeObject | 人工制品 | 人造的文化遗产对象 |
+| Provenance | 流传历史 | 所有权的转移历史 |
+| Actor | 行动者 | 人或组织 |
+| Collection | 集藏 | 博物馆的收藏 |
 
-### 翻译原则 (已采用)
+完整术语表请参考 [`术语对照表.md`](术语对照表.md)。
 
-1. **专业性优先** - 采用博物馆学界和艺术史领域的标准译法
-2. **一致性原则** - 使用术语对照表确保术语统一
-3. **完整性保证** - 确保不遗漏任何技术细节
-4. **格式保持** - 保持原始 Markdown 文件的结构不变
+## 贡献指南
 
-### 技术要求
+### 翻译改进
 
-- **文件编码**: 所有文件使用 UTF-8 编码
-- **格式保持**: 保持 Markdown 文件的原有格式
-- **代码处理**: 技术代码和 API 示例保持英文
-- **链接处理**: 内部链接文字翻译，但路径保持不变
+如果你发现翻译问题或有改进建议：
 
-### 质量控制
+1. 查看 [`术语对照表.md`](术语对照表.md) 确认标准译法
+2. 在 GitHub 上提交 Issue 或 Pull Request
+3. 说明修改理由和参考依据
 
-- 翻译完成后进行交叉检查
-- 确保术语使用的一致性
-- 验证所有链接和引用的正确性
-- 检查中文表达的流畅性和专业性
+### 转换工具改进
+
+如果你想改进转换脚本：
+
+1. 修改 `scripts/md_to_ipynb_converter.py`
+2. 确保向后兼容
+3. 添加测试用例
 
 ## 原项目信息
 
-### 关于 Linked Art
-
-Linked Art 是一个社区驱动的项目，致力于：
-- 创建基于 Linked Open Usable Data 的文化遗产描述模型
-- 制定便于交互的 API 规范
-- 提供软件工具和实施方案
-- 推动文化遗产领域的互操作性
-
-### 原始项目
-
 - **官方网站**: https://linked.art/
-- **GitHub仓库**: https://github.com/linked-art/linked.art
+- **GitHub**: https://github.com/linked-art/linked.art
 - **许可证**: CC BY 4.0
-- **维护者**: Linked Art Editorial Board
-
-### 贡献指南
-
-#### 翻译贡献
-
-我们欢迎中文翻译贡献：
-
-1. **术语讨论**: 对术语翻译有建议，请在术语对照表基础上讨论
-2. **翻译分工**: 可以认领特定模块进行翻译
-3. **质量检查**: 协助检查已翻译内容的准确性和一致性
-4. **文档改进**: 改进翻译指南和工作流程
-
-#### 技术贡献
-
-技术改进建议请先通过社区讨论：
-- 翻译工具和流程改进
-- 自动化检查脚本
-- 文档构建优化
-
-## 联系方式
-
-### 中文翻译协调
-
-如需参与翻译工作或有疑问，请：
-- 通过 GitHub Issues 提交问题
-- 参与翻译讨论
-- 查阅术语对照表和工作指南
-
-### 原项目社区
-
-- **社区页面**: https://linked.art/community/
-- **Slack频道**: linked-art.slack.com
-- **编辑委员会**: https://linked.art/community/#editorial-board
 
 ## 致谢
 
-感谢 Linked Art 原项目团队和社区：
-- Rob Sanderson (robert.sanderson@yale.edu)
-- Linked Art Editorial Board
-- 所有为 Linked Art 项目做出贡献的社区成员
-
-特别感谢为中文翻译工作提供支持和建议的所有人员。
+感谢 Linked Art 社区，特别是 Rob Sanderson 和所有贡献者。
 
 ---
 
-## 许可证
-
-本项目翻译内容遵循原项目的 CC BY 4.0 许可证。
-
----
-
-*本 README 文件随项目进展持续更新*
-*最后更新: 2025年1月*
-*翻译完成度: 100% (187/187 文档)*
-*Notebook 生成: 257 个交互式文档*
+*本文档遵循"为所有人服务"的原则编写。如果你有任何疑问或建议，欢迎通过 GitHub Issues 联系。*
