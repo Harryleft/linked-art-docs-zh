@@ -2,37 +2,95 @@
 
 ## 项目概述
 
-本项目是 Linked Art 文档的中文翻译版本。Linked Art 是一个基于 Linked Open Usable Data (LOUD) 的文化遗产描述数据模型，专注于艺术品描述，同时也包括档案和书目材料。
+本项目是 Linked Art 文档的中文翻译版本，同时提供可交互的 Jupyter Notebook 学习环境。Linked Art 是一个基于 Linked Open Usable Data (LOUD) 的文化遗产描述数据模型，专注于艺术品描述，同时也包括档案和书目材料。
 
 ## 项目状态
 
-**当前版本**: 翻译准备阶段
+**当前版本**: 翻译完成 + Jupyter Notebook 交互版本
 **原文版本**: Linked Art 1.0
-**翻译进度**: 准备工作完成，待开始翻译
+**翻译进度**: ✅ 187 个文档已翻译完成
+**Notebook**: ✅ 257 个交互式 Notebook 已生成
 
-### 已完成的工作
+### 完成内容
 
-- ✅ 清理项目结构，删除非翻译相关文件
-- ✅ 保留218个需要翻译的 Markdown 文档
-- ✅ 建立完整的中文术语对照表
-- ✅ 创建翻译工作指南
+- ✅ 中文翻译文档 (docs-zh/) - 187 个文件
+- ✅ 中文版 Jupyter Notebook (notebooks/) - 70 个文件
+- ✅ 英文版 Jupyter Notebook (notebooks-en/) - 187 个文件
+- ✅ Markdown 转 Notebook 转换脚本 (scripts/)
+- ✅ 中文术语对照表
+- ✅ 完整的导航索引
 
 ## 项目结构
 
 ```
 linked-art-docs-zh/
-├── docs/                    # 需要翻译的文档 (218个文件)
-│   ├── index.md            # 项目首页
-│   ├── about/              # 关于 Linked Art
-│   ├── model/              # 数据模型文档 (核心)
-│   ├── api/                # API 文档
-│   ├── community/          # 社区信息
-│   ├── cookbook/           # 实施指南
+├── docs/                        # 原始英文文档 (保留)
+│   ├── index.md
+│   ├── model/                   # 数据模型文档
+│   ├── api/                     # API 文档
 │   └── ...
-├── 术语对照表.md           # 中文翻译术语标准
-├── README.md              # 项目说明文件
-├── LICENSE                # 许可证文件
-└── .claude/              # Claude 配置文件
+│
+├── docs-zh/                     # 中文翻译文档 ⭐ NEW
+│   ├── index.md
+│   ├── model/
+│   ├── api/
+│   └── ... (187 个翻译文件)
+│
+├── notebooks/                   # 中文版 Jupyter Notebook ⭐ NEW
+│   ├── 00-导航索引.ipynb
+│   ├── model/
+│   └── api/1.0/ (70 个文件)
+│
+├── notebooks-en/                # 英文版 Jupyter Notebook ⭐ NEW
+│   ├── 00-导航索引.ipynb
+│   ├── model/
+│   ├── api/
+│   └── ... (187 个文件)
+│
+├── scripts/                     # 转换工具 ⭐ NEW
+│   └── md_to_ipynb_converter.py
+│
+├── 术语对照表.md                # 中文术语标准
+├── 翻译任务计划.md             # 翻译任务管理
+├── CLAUDE.md                   # 项目配置
+├── README.md                   # 本文件
+└── LICENSE                     # CC BY 4.0
+```
+
+## Jupyter Notebook 使用指南
+
+### 环境要求
+
+```bash
+# 安装 Python 库
+pip install cromulent
+pip install jupyter
+```
+
+### 快速开始
+
+**中文版入口**: `notebooks/00-导航索引.ipynb`
+**英文版入口**: `notebooks-en/00-导航索引.ipynb`
+
+### Notebook 特性
+
+| 特性 | 说明 |
+|------|------|
+| **交互式代码** | 所有 crom 代码示例可直接运行和修改 |
+| **自动导入** | 每个代码块自动添加 `from cromulent import model, vocab` |
+| **JSON 输出** | 自动显示生成的 JSON-LD 数据 |
+| **独立行显示** | 代码按行独立显示，便于编辑 |
+| **环境设置** | 自动配置 base_url 以获得清晰的输出 |
+
+### 运行示例
+
+```python
+# 每个 Notebook 开头会自动设置环境
+from cromulent import model, vocab
+
+# 创建对象
+obj = model.HumanMadeObject(ident="example", label="示例对象")
+print(model.factory.toString(obj, compact=False))
 ```
 
 ## 翻译资源
@@ -44,28 +102,59 @@ linked-art-docs-zh/
 - 专业术语的选择依据
 - 特殊情况的处理建议
 
-### 🎯 翻译优先级
+### 📚 文档内容
 
-**第一批 (核心概念)**:
-1. `docs/index.md` - 项目首页
-2. `docs/about/index.md` - 项目介绍
-3. `docs/model/index.md` - 数据模型概述
-4. `docs/model/object/index.md` - 核心对象概念
+| 类别 | 英文版 | 中文版 | Notebook |
+|------|--------|--------|----------|
+| **数据模型** | 37 个文件 | ✅ 37 个 | ✅ 中英文版 |
+| **API 规范** | 47 个文件 | ✅ 47 个 | ✅ 中英文版 |
+| **HAL 关系** | 92 个文件 | ✅ 92 个 | ✅ 中英文版 |
+| **其他文档** | 11 个文件 | ✅ 11 个 | ✅ 中英文版 |
 
-**第二批 (主要功能)**:
-5. `docs/api/1.0/index.md` - API 概述
-6. `docs/model/actor/index.md` - 人物和组织
-7. `docs/model/collection/index.md` - 集藏
-8. `docs/community/index.md` - 社区信息
+### 🎯 学习路径建议
 
-**第三批 (详细内容)**:
-9. 其他 model 子文件夹
-10. API 详细文档
-11. 实施指南和案例
+**初学者**:
+1. 从 [数据模型概述](notebooks/model/index.ipynb) 开始
+2. 学习 [基础模式](notebooks/model/base/index.ipynb)
+3. 了解 [对象](notebooks/model/object/index.ipynb) 和 [行动者](notebooks/model/actor/index.ipynb)
+
+**进阶用户**:
+1. 深入 [流传历史](notebooks/model/provenance/index.ipynb)
+2. 学习 [API 端点](notebooks/api/1.0/endpoint/index.ipynb)
+3. 掌握 [共享结构](notebooks/api/1.0/shared/index.ipynb)
+
+**高级用户**:
+1. 研究 [词汇表](notebooks/model/vocab/index.ipynb)
+2. 探索 [类分析](notebooks/model/profile/class_analysis.ipynb)
+3. 理解 [JSON-LD 扩展](notebooks/api/1.0/json-ld/extensions.ipynb)
+
+## 转换工具使用
+
+### Markdown 转 Notebook
+
+项目提供了完整的转换脚本 `scripts/md_to_ipynb_converter.py`：
+
+```python
+# 转换单个文件
+python -c "from scripts.md_to_ipynb_converter import convert_file; \
+    convert_file('docs/model/index.md', 'notebooks/model/index.ipynb')"
+
+# 批量转换目录
+python -c "from scripts.md_to_ipynb_converter import convert_directory; \
+    convert_directory('docs/model', 'notebooks/model')"
+```
+
+### 转换特性
+
+- ✅ 自动解析 YAML front matter
+- ✅ 识别 crom 代码块并增强
+- ✅ 添加自动导入和 JSON 输出
+- ✅ 保持文档结构完整
+- ✅ 支持中英文文档
 
 ## 翻译指南
 
-### 翻译原则
+### 翻译原则 (已采用)
 
 1. **专业性优先** - 采用博物馆学界和艺术史领域的标准译法
 2. **一致性原则** - 使用术语对照表确保术语统一
@@ -74,7 +163,7 @@ linked-art-docs-zh/
 
 ### 技术要求
 
-- **文件编码**: 所有文件必须使用 UTF-8 编码
+- **文件编码**: 所有文件使用 UTF-8 编码
 - **格式保持**: 保持 Markdown 文件的原有格式
 - **代码处理**: 技术代码和 API 示例保持英文
 - **链接处理**: 内部链接文字翻译，但路径保持不变
@@ -153,5 +242,7 @@ Linked Art 是一个社区驱动的项目，致力于：
 
 ---
 
-*本 README 文件随翻译项目进展持续更新*
-*最后更新: 2025年*
+*本 README 文件随项目进展持续更新*
+*最后更新: 2025年1月*
+*翻译完成度: 100% (187/187 文档)*
+*Notebook 生成: 257 个交互式文档*
