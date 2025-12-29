@@ -1,23 +1,23 @@
 ---
-title: "HAL Link: activityCarriedOutByAgent"
+title: "HAL 链接: activityCarriedOutByAgent"
 ---
 
 ## activityCarriedOutByAgent
 
-Return the activities that were carried out by the person or group.
+返回由个人或群体进行的活动。
 
-See the related [model documentation](/model/base/#events-and-activities /model/exhibition/#exhibition-activity)
+参见相关的 [模型文档](/model/base/#events-and-activities /model/exhibition/#exhibition-activity)
 
-### Example
+### 示例
 
-From the record for the National Gallery of Art, the record for the Manet exhibition activity would be in the response
+从国家艺术画廊的记录中，马奈展览活动的记录将在响应中
 
 
-### Details
+### 详情
 
-* Class Given: Agent
-* Returns Class: Activity
-* Relationship: carriedOutBy
+* 给定类: Agent
+* 返回类: Activity
+* 关系: carriedOutBy
 
 
 ### SPARQL

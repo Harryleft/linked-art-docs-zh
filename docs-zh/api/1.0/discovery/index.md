@@ -1,0 +1,30 @@
+---
+title: "Linked Art 发现 API"
+up_href: "/api/1.0/"
+up_label: "Linked Art API 1.0"
+---
+
+
+
+## 简介
+
+Linked Art 数据并非存在于真空中，它也不试图定义与文化遗产数据所有可能的交互。相反，我们的范围是定义文化遗产物品的语义描述，以及重要的周围上下文信息，如人物、地点、概念和事件。本节记录了如何从其他 API 和基于 Web 的系统中引用 Linked Art 记录。
+
+
+## HTML 中的数据可见性
+
+为了确保像 Google 这样的搜索引擎获得尽可能多的信息，有一个从 Linked Art 到 [Schema.Org](https://schema.org/) 结构的映射。Schema.Org 可以作为 JSON-LD 或其他格式嵌入网页中，使搜索引擎能够将数据作为数据处理，而不仅仅是通过面向人类的 HTML。[映射](/cookbook/mappings/schema/) 不是版本化 API 的一部分，因为它会随着底层模式及其使用的变化而更新，这超出了我们的控制范围。
+
+对于可能被给予网页而不是 JSON-LD 记录 URI 的客户端，为了数据的可见性，向它们提供数据的链接也很重要。这是通过 HTTP 响应中的[链接头](https://www.rfc-editor.org/rfc/rfc8288.html)（对于非浏览器客户端）和 HTML `head` 元素内（对于基于浏览器的客户端）完成的。这将允许客户端从面向人类用户的 HTML 视图直接转到更机器可理解的 JSON-LD 记录进行处理。
+
+在对象网页的 HTTP 响应中，链接到 JSON-LD 记录的头如下所示：
+
+```
+Link: <https://example.com/data/object/1>;
+        rel="describedby";
+        type="application/ld+json;profile='https://linked.art/ns/v1/linked-art.json'"
+```
+
+在 HTML 的 `head` 元素中：
+
+```XML

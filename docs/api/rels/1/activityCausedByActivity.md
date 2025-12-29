@@ -1,23 +1,23 @@
 ---
-title: "HAL Link: activityCausedByActivity"
+title: "HAL 链接: activityCausedByActivity"
 ---
 
 ## activityCausedByActivity
 
-Return the activities that were caused by the event or activity.
+返回由事件或活动导致的活动。
 
-See the related [model documentation]()
+参见相关的 [模型文档]()
 
-### Example
+### 示例
 
-From the record for a fire that damaged a statue, the record for the conservation activity to repair the statue would be in the response
+从损坏雕像的火灾记录中，修复雕像的保护活动记录将在响应中
 
 
-### Details
+### 详情
 
-* Class Given: Event,Activity
-* Returns Class: Event,Activity
-* Relationship: 
+* 给定类: Event,Activity
+* 返回类: Event,Activity
+* 关系:
 
 
 ### SPARQL

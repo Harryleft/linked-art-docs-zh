@@ -1,0 +1,162 @@
+---
+title: "展览"
+---
+
+
+## 概述
+
+展览是一种非常常见的活动，涉及将不同组织拥有的艺术品一起展示，通常还有将作品联系在一起的额外背景信息。展览通常在不同地点随时间推移而举办，并且可能是世界博览会或年度展览等系列的一部分。
+
+模型将展览分为两个独立的实体：在特定地点和时间发生的展示对象的活动，以及展览的概念概念。这种分离很重要，因为活动不是`about`任何东西，对于已计划但取消的展览（可能由于战争、流行病或仅仅失去资金），概念展览允许描述想法而不断言它实际发生。
+
+
+## 展览活动
+
+有一个展示对象的活动。特别是，展览在`timespan`中给出的特定时间、在`took_place_at`中给出的特定地点或地点发生，并由某些行动者（可能是组织）在`carried_out_by`中给出组织。它可以使用_aat:300054766_"展览"的分类被识别为展览。展览通过`used_specific_object`属性链接到展出的对象集合，指向[集合](/model/collection/)
+
+请注意，作为活动的展览没有主题或主题，相反，活动受到抽象作品的影响——展览的想法，将在下一节描述。
+
+**示例：**
+
+2019年10月至2020年1月在盖蒂举办的"马奈与现代之美"，由位于洛杉矶的盖蒂博物馆举办，并受到展览想法的影响。
+
+```crom
+top = vocab.Exhibition(ident="exha/1", label="马奈与现代之美（盖蒂）")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美")
+top.referred_to_by = vocab.Description(content="现代巴黎的伟大画家爱德华·马奈以其挑衅性的画作震惊了当代观众。这是首个探索其短暂生命最后岁月的展览，马奈与现代之美突出了这位著名艺术家作品中不太熟悉和更亲密的一面。")
+ts = model.TimeSpan()
+ts.begin_of_the_begin = "2019-10-08T00:00:00Z"
+ts.end_of_the_end = "2020-01-12T23:59:59Z"
+top.timespan = ts
+top.carried_out_by = vocab.MuseumOrg(ident="http://vocab.getty.edu/ulan/500115988", label="盖蒂博物馆")
+top.took_place_at = vocab.City(ident="http://vocab.getty.edu/tgn/7023900", label="洛杉矶")
+top.used_specific_object = model.Set(ident="exhset", label="展览对象")
+top.influenced_by = model.PropositionalObject(ident="exhidea", label="马奈与现代之美的想法")
+```
+
+
+## 展览概念
+
+模型区分展览的概念和使该概念成为现实的活动。概念由最初构思展览的人们创作，远在任何作品收集在一起之前。展览概念可能有某种主题，导致呈现一个连贯的对象集合，这可能像后工业生活一样复杂，也可能像特定艺术家的毕生作品一样简单。
+
+概念被建模为`PropositionalObject`，并`classified_as` _aat:300417531_ 以确保它被明确标记为展览并与活动分开。它可以具有所有基本模式，如名称、标识符、引用，以及权利和主题。
+
+请注意，这个"抽象作品"模式也可以用于其他建模场景，包括行为艺术、戏剧或其他表演艺术，书目建模中的"作品"概念，如[文档模型](/model/document/)中所述。如果实体可以`about`某事物但不是直接的语言或视觉作品，那么`PropositionalObject`是最可能的类。
+
+**示例：**
+
+"马奈与现代之美"展览的想法（或抽象作品）是关于马奈和美的。
+
+```crom
+top = vocab.ExhibitionIdea(ident="exhidea/1", label="马奈与现代之美的想法")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美")
+top.about = model.Type(ident="http://vocab.getty.edu/aat/300055821", label="美")
+top.about = model.Person(ident="http://vocab.getty.edu/ulan/500010363", label="马奈")
+cre = model.Creation()
+cre.carried_out_by = model.Person(ident="allan", label="斯科特·艾伦")
+cre.carried_out_by = model.Person(ident="beeny", label="艾米丽·比尼")
+cre.carried_out_by = model.Person(ident="groom", label="格洛丽亚·格鲁姆")
+top.created_by = cre
+
+```
+
+### 已知艺术家但未知对象
+
+经常遇到的情况是我们知道一个历史展览以及哪些艺术家有作品展出，但不知道任何个别作品。由于艺术家可能不在展览现场，也不参与策划或以其他方式执行，他们不能是活动的参与者，也不能是活动概念化的参与者。同样，我们可能知道围绕艺术家策划的展览，但它可能从未实际发生过。最后，无论我们是否知道对象，我们都可能希望将艺术家链接到展览。
+
+因此，到艺术家的链接在展览概念上，而不是与活动相关。如果展览是专门关于艺术家的，那么概念可以`about`该艺术家。如果艺术家只是已知在展览中有作品使用，那么它的`Creation`应该被艺术家`influenced_by`。当然，它也可以两者兼有。
+
+**示例：**
+
+"马奈与现代之美"展览的概念化受到马奈及其作品的影响。
+
+```crom
+top = vocab.ExhibitionIdea(ident="exhidea/2", label="马奈与现代之美的想法")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美")
+cre = model.Creation()
+top.created_by = cre
+cre.influenced_by = model.Person(ident="http://vocab.getty.edu/ulan/500010363", label="马奈")
+```
+
+
+## 多个地点
+
+一些展览在不同地点随时间推移而展示，从一个博物馆或展览厅移动到另一个。在这种情况下，每个不同的地点都被视为一个独立的展览活动，然后创建一个更广泛的"巡回展览" _(aat:300054773)_，这些活动是其组成部分。请注意，巡回展览可以与其组成部分有单独的属性，如区分联合性质的`label`和覆盖所有地点的更广泛`timespan`。无需在巡回展览中重复组织和地点，这些可以通过查看它组成的展览更容易地确定。
+
+**示例：**
+
+芝加哥艺术博物馆在芝加哥展示了"马奈与现代之美"，使用特定的对象集合，并且是更大的多地点展览的一部分。
+
+```crom
+top = vocab.Exhibition(ident="exhb/1", label="马奈与现代之美（芝加哥艺术博物馆）")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美")
+ts = model.TimeSpan()
+ts.begin_of_the_begin = "2019-05-26T00:00:00Z"
+ts.end_of_the_end = "2019-09-08T23:59:59Z"
+top.timespan = ts
+top.carried_out_by = vocab.MuseumOrg(ident="http://vocab.getty.edu/ulan/500304669", label="芝加哥艺术博物馆")
+top.took_place_at = vocab.City(ident="http://vocab.getty.edu/tgn/7013596", label="芝加哥")
+top.used_specific_object = model.Set(ident="exhset", label="展览对象")
+top.influenced_by = model.PropositionalObject(ident="exhidea", label="马奈与现代之美的想法")
+top.part_of = model.Activity(ident="exhab", label="马奈与现代之美")
+```
+
+更大的多地点展览活动。
+
+```crom
+top = vocab.MultiExhibition(ident="exhab/1", label="马奈与现代之美")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美")
+ts = model.TimeSpan()
+ts.begin_of_the_begin = "2019-05-26T00:00:00Z"
+ts.end_of_the_end = "2020-01-12T23:59:59Z"
+top.timespan = ts
+top.influenced_by = model.PropositionalObject(ident="exhidea", label="马奈与现代之美的想法")
+```
+
+## 对象
+
+展览中展示的艺术对象集合可以从展览中使用属性`used_specific_object`列出。构成展览内容的对象集合模型与永久收藏集合的模型相同——对象被收集到一个`Set`中，该集合被展览使用。
+
+对于上述描述的巡回展览，如果那些集合有实质性差异，应该从每个地点引用不同的对象集合。对象通常会被添加或移除，每个地点可能有自己的特定上下文信息，如描述或标签。在巡回展览场景中，代表整体展览的顶级活动没有自己的集合。
+
+**示例：**
+
+"马奈与现代之美"中的对象...
+
+```crom
+top = model.Set(ident="exhset/1", label="展览对象")
+top.identified_by = vocab.PrimaryName(content="马奈与现代之美中的对象")
+top.classified_as = model.Type(ident="http://vocab.getty.edu/aat/300378926", label="展览收藏")
+top.referred_to_by = vocab.Description(content="芝加哥艺术博物馆和盖蒂博物馆的"马奈与现代之美"展览中的对象")
+cre = model.Creation()
+ts = model.TimeSpan()
+ts.begin_of_the_begin = "2019-05-01T00:00:00Z"
+ts.end_of_the_end = "2019-05-01T23:59:59Z"
+cre.timespan = ts
+top.created_by = cre
+```
+
+...包括马奈的《让娜》。
+
+```crom
+top = vocab.Painting(ident="spring/12", label="马奈的《让娜（春天）》")
+top.identified_by = model.Name(content="让娜（春天）")
+top.member_of = model.Set(ident="exhset")
+```
+
+## 与模型其他部分的整合
+
+### 展览的流传历史事件
+
+由于用于展览的对象通常来自许多不同组织，跟踪对象的保管权和所有权是有用且有趣的。此事件以与其他[保管](/model/provenance/custody/)变更相同的方式建模。
+
+对于每个展览，对象的保管权从先前的保管人转移到下一个。在展览单一地点的简单情况下，第一次转移可能是从所有者转移到负责展览的组织，然后在展览结束时，保管权再次转移回来。在具有多个地点的更复杂场景中，每个举办展览的组织可能会将保管权转移到序列中的下一个。
+
+然而，当在地点展出的对象被同一组织拥有时，没有保管权转移。等效的活动很可能只是将对象从其常规位置移动到展览空间。这与其他[移动](/model/provenance/movement/)事件的描述方式相同。
+
+流传历史活动可以通过断言它们是展览活动的`part_of`来链接到展览。
+
+
+### 展览特定标题
+
+展览的策展人有时会为对象分配新的标题或名称。这是[上下文特定断言](/model/assertion/#context-specific-assertions)模式的一个实例。

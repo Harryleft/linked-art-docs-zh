@@ -3,7 +3,9 @@
     "allow": [
       "Bash(find:*)",
       "Bash(rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "mcp__thinking__sequentialthinking"
     ],
     "deny": [],
     "ask": []
