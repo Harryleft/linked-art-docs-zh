@@ -16,6 +16,7 @@
 - 257 个 Notebook，包含所有代码示例
 - 每个代码块都可以直接运行、修改、实验
 - 自动显示生成的 JSON-LD 数据，直观理解数据结构
+- **代码标准化**：所有代码示例遵循统一的 5 步结构模板，包含清晰的英文注释说明"谁/什么/为什么"
 
 **3. 一键转换工具**
 - 提供 Python 脚本，可随时将 Markdown 转换为 Notebook
@@ -56,18 +57,35 @@ jupyter lab notebooks-en
 打开任意 Notebook，你会看到类似这样的代码：
 
 ```python
-# 环境设置（每个 Notebook 开头都有）
+# Step 1: 导入 cromulent 库
 from cromulent import model, vocab
 
-# 创建一件艺术品对象
+# Step 2: 配置工厂设置
+model.factory.auto_assign_id = False
+vocab.add_attribute_assignment_check()
+
+# Step 3: 创建主对象
+# Who: 未知艺术家
+# What: 人工制品对象
+# Why: 记录一件艺术品的基本信息
 artwork = model.HumanMadeObject(
     ident="painting/1",
     label="星空"
 )
 
-# 显示生成的 JSON 数据
+# Step 4: 创建相关对象和关系
+# (本示例是最简单的对象，无额外关系)
+
+# Step 5: 显示生成的 JSON 数据
 print(model.factory.toString(artwork, compact=False))
 ```
+
+**5 步模板说明**：
+- **Step 1**: 导入必要的库
+- **Step 2**: 配置代码生成环境
+- **Step 3**: 创建主对象，说明涉及的人/物/目的
+- **Step 4**: 创建相关对象和关系，包含行内注释
+- **Step 5**: 显示生成的 JSON-LD
 
 运行后，你会看到结构化的 JSON 输出：
 
@@ -138,26 +156,35 @@ linked-art-docs-zh/
 ### 创建一个新的艺术品记录
 
 ```python
+# Step 1: 导入 cromulent 库
 from cromulent import model, vocab
 
-# 创建对象
+# Step 2: 配置工厂设置
+model.factory.auto_assign_id = False
+vocab.add_attribute_assignment_check()
+
+# Step 3: 创建主对象（蒙娜丽莎画作）
+# Who: 列奥纳多·达·芬奇（艺术家）
+# What: 人工制品对象 - "蒙娜丽莎"画作
+# Why: 记录这件世界著名艺术品的基本信息和创作背景
 painting = model.HumanMadeObject(
     ident="mona-lisa",
     label="蒙娜丽莎"
 )
 
-# 添加创作信息
+# Step 4: 创建相关对象和关系
+# 创作事件
 production = model.Production()
 painting.produced_by = production
 
-# 添加创作者
+# 谁创作了这件作品：达·芬奇
 leonardo = model.Person(
     ident="leonardo-da-vinci",
     label="列奥纳多·达·芬奇"
 )
 production.carried_out_by = leonardo
 
-# 查看结果
+# Step 5: 显示生成的 JSON 数据
 print(model.factory.toString(painting, compact=False))
 ```
 

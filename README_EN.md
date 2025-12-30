@@ -16,6 +16,7 @@ This is the problem Linked Art solves—it provides a **standard data model** th
 - 257 Notebooks containing all code examples
 - Every code block can be run, modified, and experimented with directly
 - Automatically displays generated JSON-LD data for intuitive understanding of data structures
+- **Standardized Code**: All code examples follow a consistent 5-step template with clear English comments explaining "Who/What/Why"
 
 **3. One-Click Conversion Tool**
 - Python script to convert Markdown to Notebook anytime
@@ -56,18 +57,35 @@ jupyter lab notebooks-en
 Open any Notebook and you'll see code like this:
 
 ```python
-# Environment setup (included at the start of every Notebook)
+# Step 1: Import cromulent library
 from cromulent import model, vocab
 
-# Create an artwork object
+# Step 2: Configure factory settings
+model.factory.auto_assign_id = False
+vocab.add_attribute_assignment_check()
+
+# Step 3: Create the main object
+# Who: Unknown artist
+# What: HumanMadeObject representing an artwork
+# Why: To record basic information about a cultural heritage object
 artwork = model.HumanMadeObject(
     ident="painting/1",
     label="Starry Night"
 )
 
-# Display the generated JSON data
+# Step 4: Create related objects and relationships
+# (This is a minimal example with no additional relationships)
+
+# Step 5: Display the generated JSON data
 print(model.factory.toString(artwork, compact=False))
 ```
+
+**5-Step Template Explanation**:
+- **Step 1**: Import required libraries
+- **Step 2**: Configure code generation environment
+- **Step 3**: Create main object, documenting Who/What/Why
+- **Step 4**: Create related objects and relationships with inline comments
+- **Step 5**: Display generated JSON-LD
 
 When you run it, you'll see structured JSON output:
 
@@ -138,26 +156,35 @@ A data model defines how to describe a cultural heritage object. For example, de
 ### Create a New Artwork Record
 
 ```python
+# Step 1: Import cromulent library
 from cromulent import model, vocab
 
-# Create the object
+# Step 2: Configure factory settings
+model.factory.auto_assign_id = False
+vocab.add_attribute_assignment_check()
+
+# Step 3: Create the main object (Mona Lisa painting)
+# Who: Leonardo da Vinci (artist)
+# What: HumanMadeObject representing the "Mona Lisa" painting
+# Why: To document this world-famous artwork with its creation context
 painting = model.HumanMadeObject(
     ident="mona-lisa",
     label="Mona Lisa"
 )
 
-# Add production information
+# Step 4: Create related objects and relationships
+# Production event
 production = model.Production()
 painting.produced_by = production
 
-# Add the artist
+# Who created this work: Leonardo da Vinci
 leonardo = model.Person(
     ident="leonardo-da-vinci",
     label="Leonardo da Vinci"
 )
 production.carried_out_by = leonardo
 
-# View the result
+# Step 5: Display the generated JSON data
 print(model.factory.toString(painting, compact=False))
 ```
 
