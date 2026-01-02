@@ -1,56 +1,165 @@
-# Linked Art 中文文档 - 可交互式学习环境
+# Linked Art 中文文档 — 可交互式学习笔记本
 
-## 为什么需要这个项目？
+面向 Linked Art 数据模型和 API 的双语言可执行 Jupyter Notebook 学习环境。
 
-想象一下，你正在为GLAM机构建立数字化档案系统。你需要记录：每件艺术品是谁创作的、何时何地完成、经历过哪些收藏者的流转、参加过哪些展览...如果把这些信息分散在不同的表格和数据库中，不仅难以维护，更无法与其他机构共享数据。
+## 快速链接
 
-这就是 Linked Art 要解决的问题——它提供了一套**标准的数据模型**，让文化遗产信息的记录和共享变得简单。就像图书馆使用 ISBN 标准来标识书籍一样，Linked Art 让博物馆、美术馆、档案馆可以用同一种"语言"来描述他们的收藏。
+- 从这里开始（中文）: `notebooks/00-README.ipynb`
 
-## 这个项目提供了什么？
+- 从这里开始（英文）: `notebooks-en/00-README.ipynb`
 
-这是一个**纯 Jupyter Notebook 交互式学习环境**，包含 341 个可执行笔记本（171 中文 + 170 英文），专注于 Linked Art 数据模型和 API 规范。
 
-**核心特点**：
 
-1. **即学即用** - 每个 Notebook 都是可执行的，代码可以实时运行、修改、实验
-2. **双语言支持** - 提供中文和英文两个版本，满足不同学习需求
-3. **标准化代码** - 所有代码示例遵循统一的 5 步结构模板，清晰易懂
-4. **自动输出** - 每个代码块自动显示生成的 JSON-LD，直观理解数据结构
+## 目录
 
-**覆盖内容**：
-- **数据模型** (Model): 17 个主题，包括对象、行动者、流传历史、展览等
-- **API 规范** (API): 完整的 RESTful API 文档和关系属性定义
+- [为什么选择 Linked Art](#为什么选择-linked-art)
+- [本项目提供了什么](#本项目提供了什么)
+- [快速开始](#快速开始)
+- [仓库结构](#仓库结构)
+- [学习路径](#学习路径)
+- [Notebook 规范（5 步模板）](#notebook-规范5-步模板)
+- [常见任务：创建最简艺术品记录](#常见任务创建最简艺术品记录)
+- [术语指南](#术语指南)
+- [许可证](#许可证)
+- [致谢](#致谢)
+- [故障排查](#故障排查)
+- [贡献](#贡献)
+
+---
+
+## 为什么选择 Linked Art
+
+在 GLAM 机构的数字化馆藏系统中，你通常需要记录：
+
+- 谁创作了艺术品以及相关背景
+- 创作时间和地点
+- 所有权和监护权的变更（流传历史）
+- 展览和相关事件
+- 对象、人物、地点和组织之间的关系
+
+如果这些信息分散在不同的表格或孤立数据库中，就会变得难以维护、难以验证，而且几乎无法在机构之间共享。
+
+**Linked Art** 通过提供一套**标准化的 JSON-LD 数据模型**来解决这个问题，用一致、互操作的方式描述文化遗产信息——让不同系统在交换馆藏数据时能够"使用同一种语言"。
+
+---
+
+## 本项目提供了什么
+
+本仓库是 Linked Art 的**完全可执行的 Jupyter Notebook 学习环境**。
+
+### 核心特点
+
+1. **即学即用**
+   每个 notebook 都可运行。修改代码并立即查看 JSON-LD 输出的变化。
+
+2. **双语言（中文 + 英文）**
+   并行的 notebook 集支持不同的学习偏好和教学场景。
+
+3. **一致的代码风格**
+   示例遵循统一的"5 步模板"，保持结构可预测且易于浏览。
+
+4. **自动 JSON-LD 输出**
+   每个示例都会打印或显示生成的 JSON-LD，使数据模型具体可见。
+
+
+
+---
 
 ## 快速开始
 
-### 1. 安装依赖
+### 1) 前置要求
 
-打开终端，执行以下命令：
+- Python 3.9+ 推荐（3.10+ 更佳）
+- JupyterLab（或 Jupyter Notebook）
+
+### 2) 安装依赖
 
 ```bash
-pip install cromulent jupyter
-```
+pip install cromulent jupyterlab
+````
 
-**安装说明**：
-- `cromulent` - Linked Art 的 Python 库，用于生成文化遗产数据
-- `jupyter` - 交互式 Notebook 环境
+**依赖包说明**
 
-### 2. 打开学习环境
+* `cromulent`: 用于生成 Linked Art / CIDOC-CRM 兼容 JSON-LD 的 Python 库
+* `jupyterlab`: 交互式 notebook 环境
 
-**中文版**：
+### 3) 启动 Notebooks
+
+**中文版**
+
 ```bash
-jupyter lab notebooks
+jupyter lab notebooks/
 ```
-然后在浏览器中打开 `00-README.ipynb`
 
-**英文版**：
+打开：`00-README.ipynb`
+
+**英文版**
+
 ```bash
-jupyter lab notebooks-en
+jupyter lab notebooks-en/
 ```
 
-### 3. 运行第一个代码示例
+打开：`00-README.ipynb`
 
-打开任意 Notebook，你会看到类似这样的代码：
+---
+
+## 仓库结构
+
+```text
+.
+├── notebooks/              # 中文 Jupyter Notebooks (171 个)
+│   ├── 00-README.ipynb     # 导航索引 & 入口
+│   ├── index.ipynb         # 目录
+│   ├── model/              # Linked Art 数据模型
+│   │   ├── actor/          # 人、群体和其他行动者
+│   │   ├── object/         # 对象（创作、所有权、物理属性）
+│   │   ├── provenance/     # 获得、转移、监护等
+│   │   ├── place/          # 地点建模
+│   │   ├── event/          # 事件
+│   │   ├── exhibition/     # 展览
+│   │   └── ...
+│   └── api/                # API 文档
+│       ├── 1.0/            # 版本 1.0 端点
+├── notebooks-en/           # 英文 Jupyter Notebooks (170 个，镜像结构)
+├── scripts/                # 实用工具脚本（如转换工具）
+└── 术语对照表.md             # 术语参考
+```
+
+---
+
+## 学习路径
+
+### 初学者（推荐）
+
+1. 开始（中文）: `notebooks/00-README.ipynb`
+2. 核心概览: `notebooks/model/index.ipynb`
+3. 第一次动手建模: `notebooks/model/object/production.ipynb`
+
+### 进阶用户
+
+1. 流传历史深入: `notebooks/model/provenance/index.ipynb`
+2. API 基础: `notebooks/api/1.0/index.ipynb`
+3. 使用端点构建应用: 跟随 API 端点 notebooks 学习
+
+
+
+---
+
+## Notebook 规范（5 步模板）
+
+所有 notebooks 都遵循一致的 5 步结构：
+
+1. **导入** 所需库
+2. **配置** 工厂/验证设置
+3. **创建** 主资源（记录谁/什么/为什么）
+4. **关联** 相关资源和关系
+5. **输出** JSON-LD 以供检查
+
+这个模板确保示例保持可读、可比较且易于扩展。
+
+---
+
+## 常见任务：创建最简艺术品记录
 
 ```python
 # Step 1: 导入 cromulent 库
@@ -61,29 +170,22 @@ model.factory.auto_assign_id = False
 vocab.add_attribute_assignment_check()
 
 # Step 3: 创建主对象
-# Who: 未知艺术家
-# What: 人工制品对象
-# Why: 记录一件艺术品的基本信息
+# Who: 未知艺术家（最简示例）
+# What: 代表艺术品的人工制品对象
+# Why: 在 Linked Art 中记录基本的文化遗产对象
 artwork = model.HumanMadeObject(
     ident="painting/1",
     label="星空"
 )
 
-# Step 4: 创建相关对象和关系
-# (本示例是最简单的对象，无额外关系)
+# Step 4: 创建相关对象和关系（最简示例中可选）
+# （无额外关系）
 
-# Step 5: 显示生成的 JSON 数据
+# Step 5: 显示生成的 JSON-LD
 print(model.factory.toString(artwork, compact=False))
 ```
 
-**5 步模板说明**：
-- **Step 1**: 导入必要的库
-- **Step 2**: 配置代码生成环境
-- **Step 3**: 创建主对象，说明涉及的人/物/目的
-- **Step 4**: 创建相关对象和关系，包含行内注释
-- **Step 5**: 显示生成的 JSON-LD
-
-运行后，你会看到结构化的 JSON 输出：
+示例输出：
 
 ```json
 {
@@ -94,137 +196,60 @@ print(model.factory.toString(artwork, compact=False))
 }
 ```
 
-## 项目结构
+---
 
-```
-linked-art-docs-zh/
-├── notebooks/         # 中文版 Jupyter Notebooks (171 个)
-│   ├── 00-README.ipynb    # 导航索引 & 入口
-│   ├── index.ipynb        # 总目录
-│   ├── model/             # 数据模型文档
-│   │   ├── actor/        # 行动者（人、群体）
-│   │   ├── object/       # 对象（创作、所有权、物理属性）
-│   │   ├── provenance/   # 流传历史（获得、转移、监护）
-│   │   ├── place/        # 地点
-│   │   ├── event/        # 事件
-│   │   ├── exhibition/   # 展览
-│   │   └── ...
-│   └── api/               # API 规范
-│       ├── 1.0/          # 版本 1.0 端点文档
-│       └── rels/         # 关系属性定义
-├── notebooks-en/      # 英文版 Jupyter Notebooks (170 个)
-│   └── (同上结构)
-├── scripts/           # 转换工具
-└── 术语对照表.md       # 专业术语标准参考
-```
+## 术语指南
 
-## 核心概念速览
+你会经常看到的一些常见术语：
 
-### 数据模型是什么？
+| 英文            | 中文     | 说明                |
+| --------------- | -------- | ------------------- |
+| Linked Art      | Linked Art | 保持原名            |
+| HumanMadeObject | 人工制品    | 人造的文化遗产对象     |
+| Provenance      | 流传历史    | 所有权/监护历史       |
+| Actor           | 行动者     | 人或群体            |
+| Collection      | 集藏       | 博物馆/机构馆藏       |
+| Production      | 创作/生产   | 对象的创造/生产       |
+| Acquisition     | 获得/收藏   | 获得事件            |
 
-数据模型定义了如何描述一个文化遗产对象。例如，描述一幅画作需要：
-
-| 属性 | 说明 | Linked Art 术语 |
-|------|------|-----------------|
-| **创作** | 谁在何时何地创作了它 | Production |
-| **材质** | 用什么材料制成 | Material |
-| **尺寸** | 有多大 | Dimension |
-| **流传** | 曾被谁收藏 | Provenance |
-| **展览** | 参加过哪些展览 | Exhibition |
-
-### 为什么选择 Linked Art？
-
-- **标准化**：被 Getty、Smithsonian、Yale 等机构采用
-- **可扩展**：可以记录从简单到复杂的各种信息
-- **互操作**：数据可以在不同系统间无缝交换
-- **免费开源**：遵循 CC BY 4.0 许可证
-
-## 学习路径建议
-
-### 初学者（推荐）
-
-1. **从入口开始**：`notebooks/00-README.ipynb`
-2. **理解核心概念**：`notebooks/model/index.ipynb`
-3. **实践创建对象**：`notebooks/model/object/production.ipynb`
-
-### 进阶用户
-
-1. **深入数据模型**：`notebooks/model/provenance/index.ipynb`
-2. **学习 API 使用**：`notebooks/api/1.0/index.ipynb`
-3. **构建自己的应用**：参考 API 端点文档
-
-### 开发者
-
-1. **阅读 API 文档**：`notebooks-en/api/1.0/index.ipynb`
-2. **查看关系属性**：`notebooks-en/api/rels/1/index.ipynb`
-3. **使用转换工具**：参考 `scripts/md_to_ipynb_converter.py`
-
-## 常见任务
-
-### 创建一个新的艺术品记录
-
-```python
-# Step 1: 导入 cromulent 库
-from cromulent import model, vocab
-
-# Step 2: 配置工厂设置
-model.factory.auto_assign_id = False
-vocab.add_attribute_assignment_check()
-
-# Step 3: 创建主对象（蒙娜丽莎画作）
-# Who: 列奥纳多·达·芬奇（艺术家）
-# What: 人工制品对象 - "蒙娜丽莎"画作
-# Why: 记录这件世界著名艺术品的基本信息和创作背景
-painting = model.HumanMadeObject(
-    ident="mona-lisa",
-    label="蒙娜丽莎"
-)
-
-# Step 4: 创建相关对象和关系
-# 创作事件
-production = model.Production()
-painting.produced_by = production
-
-# 谁创作了这件作品：达·芬奇
-leonardo = model.Person(
-    ident="leonardo-da-vinci",
-    label="列奥纳多·达·芬奇"
-)
-production.carried_out_by = leonardo
-
-# Step 5: 显示生成的 JSON 数据
-print(model.factory.toString(painting, compact=False))
-```
-
-## 术语对照（重要）
-
-在阅读本文档时，以下术语会频繁出现：
-
-| 英文 | 中文 | 说明 |
-|------|------|------|
-| Linked Art | Linked Art | 保持原文，项目名称 |
-| HumanMadeObject | 人工制品 | 人造的文化遗产对象 |
-| Provenance | 流传历史 | 所有权的转移历史 |
-| Actor | 行动者 | 人或组织 |
-| Collection | 集藏 | 博物馆的收藏 |
-| Production | 创作/生产 | 艺术品的创造过程 |
-| Acquisition | 获得/收藏 | 所有权的获取 |
-
-完整术语表请参考 [`术语对照表.md`](术语对照表.md)。
-
-## 原项目信息
-
-- **官方网站**: https://linked.art/
-- **GitHub**: https://github.com/linked-art/linked.art
-- **许可证**: CC BY 4.0
-
-## 致谢
-
-感谢 Linked Art 社区，特别是 Rob Sanderson 和所有贡献者。
+完整术语列表请查看：`术语对照表.md`
 
 ---
 
-**项目统计**：
-- 中文 Notebook: 171 个
-- 英文 Notebook: 170 个
-- 覆盖主题: 数据模型 (17) + API (2)
+## 许可证
+
+本仓库采用 **CC BY 4.0** 许可证发布
+
+---
+
+## 致谢
+
+感谢 Linked Art 社区和贡献者，特别是 Rob Sanderson 和所有项目维护者。
+
+---
+
+## 故障排查
+
+* **`ModuleNotFoundError: cromulent`**
+  运行：`pip install cromulent`
+
+* **找不到 Jupyter 命令**
+  运行：`pip install jupyterlab` 并重新启动终端
+
+* **Notebook 打开但代码无法运行**
+  确保你的 Jupyter 内核使用的是安装了依赖的同一 Python 环境
+
+---
+
+## 贡献
+
+欢迎贡献，包括：
+
+* 修复 notebook 中的拼写错误或改进说明
+* 改进双语言对齐或术语一致性
+
+建议的工作流程：
+
+1. Fork 本仓库
+2. 创建功能分支
+3. 提交 pull request 并清晰说明更改内容
