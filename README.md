@@ -2,6 +2,8 @@
 
 面向 Linked Art 数据模型和 API 的双语言可执行 Jupyter Notebook 学习环境。
 
+**[English Version / 英文版](README_EN.md) | 中文版**
+
 ## 快速链接
 
 - 从这里开始（中文）: `notebooks/00-README.ipynb`
