@@ -2,25 +2,24 @@
 
 ## 为什么需要这个项目？
 
-想象一下，你正在为GLAM建立数字化档案系统。你需要记录：每件艺术品是谁创作的、何时何地完成、经历过哪些收藏者的流转、参加过哪些展览...如果把这些信息分散在不同的表格和数据库中，不仅难以维护，更无法与其他机构共享数据。
+想象一下，你正在为GLAM机构建立数字化档案系统。你需要记录：每件艺术品是谁创作的、何时何地完成、经历过哪些收藏者的流转、参加过哪些展览...如果把这些信息分散在不同的表格和数据库中，不仅难以维护，更无法与其他机构共享数据。
 
 这就是 Linked Art 要解决的问题——它提供了一套**标准的数据模型**，让文化遗产信息的记录和共享变得简单。就像图书馆使用 ISBN 标准来标识书籍一样，Linked Art 让博物馆、美术馆、档案馆可以用同一种"语言"来描述他们的收藏。
 
 ## 这个项目提供了什么？
 
-**1. 完整的中文翻译**
-- 187 个文档的中文翻译，覆盖数据模型、API 规范、实施指南
-- 所有翻译遵循博物馆学界和艺术史领域的专业术语标准
+这是一个**纯 Jupyter Notebook 交互式学习环境**，包含 341 个可执行笔记本（171 中文 + 170 英文），专注于 Linked Art 数据模型和 API 规范。
 
-**2. 可交互的 Jupyter Notebook**
-- 257 个 Notebook，包含所有代码示例
-- 每个代码块都可以直接运行、修改、实验
-- 自动显示生成的 JSON-LD 数据，直观理解数据结构
-- **代码标准化**：所有代码示例遵循统一的 5 步结构模板，包含清晰的英文注释说明"谁/什么/为什么"
+**核心特点**：
 
-**3. 一键转换工具**
-- 提供 Python 脚本，可随时将 Markdown 转换为 Notebook
-- 支持批量转换，便于自定义学习材料
+1. **即学即用** - 每个 Notebook 都是可执行的，代码可以实时运行、修改、实验
+2. **双语言支持** - 提供中文和英文两个版本，满足不同学习需求
+3. **标准化代码** - 所有代码示例遵循统一的 5 步结构模板，清晰易懂
+4. **自动输出** - 每个代码块自动显示生成的 JSON-LD，直观理解数据结构
+
+**覆盖内容**：
+- **数据模型** (Model): 17 个主题，包括对象、行动者、流传历史、展览等
+- **API 规范** (API): 完整的 RESTful API 文档和关系属性定义
 
 ## 快速开始
 
@@ -29,7 +28,6 @@
 打开终端，执行以下命令：
 
 ```bash
-# 安装 Python 依赖
 pip install cromulent jupyter
 ```
 
@@ -38,8 +36,6 @@ pip install cromulent jupyter
 - `jupyter` - 交互式 Notebook 环境
 
 ### 2. 打开学习环境
-
-根据你的偏好选择：
 
 **中文版**：
 ```bash
@@ -102,12 +98,24 @@ print(model.factory.toString(artwork, compact=False))
 
 ```
 linked-art-docs-zh/
-├── docs/              # 原始英文文档
-├── docs-zh/           # 中文翻译
-├── notebooks/         # 中文版 Notebook
-├── notebooks-en/      # 英文版 Notebook
+├── notebooks/         # 中文版 Jupyter Notebooks (171 个)
+│   ├── 00-README.ipynb    # 导航索引 & 入口
+│   ├── index.ipynb        # 总目录
+│   ├── model/             # 数据模型文档
+│   │   ├── actor/        # 行动者（人、群体）
+│   │   ├── object/       # 对象（创作、所有权、物理属性）
+│   │   ├── provenance/   # 流传历史（获得、转移、监护）
+│   │   ├── place/        # 地点
+│   │   ├── event/        # 事件
+│   │   ├── exhibition/   # 展览
+│   │   └── ...
+│   └── api/               # API 规范
+│       ├── 1.0/          # 版本 1.0 端点文档
+│       └── rels/         # 关系属性定义
+├── notebooks-en/      # 英文版 Jupyter Notebooks (170 个)
+│   └── (同上结构)
 ├── scripts/           # 转换工具
-└── 术语对照表.md       # 专业术语标准
+└── 术语对照表.md       # 专业术语标准参考
 ```
 
 ## 核心概念速览
@@ -135,20 +143,20 @@ linked-art-docs-zh/
 
 ### 初学者（推荐）
 
-1. **从入门开始**：`notebooks/00-README.ipynb`
+1. **从入口开始**：`notebooks/00-README.ipynb`
 2. **理解核心概念**：`notebooks/model/index.ipynb`
 3. **实践创建对象**：`notebooks/model/object/production.ipynb`
 
 ### 进阶用户
 
 1. **深入数据模型**：`notebooks/model/provenance/index.ipynb`
-2. **学习 API 使用**：`notebooks/api/1.0/endpoint/index.ipynb`
-3. **构建自己的应用**：参考 `notebooks/cookbook/`
+2. **学习 API 使用**：`notebooks/api/1.0/index.ipynb`
+3. **构建自己的应用**：参考 API 端点文档
 
 ### 开发者
 
 1. **阅读 API 文档**：`notebooks-en/api/1.0/index.ipynb`
-2. **查看实现示例**：`notebooks-en/example/index.ipynb`
+2. **查看关系属性**：`notebooks-en/api/rels/1/index.ipynb`
 3. **使用转换工具**：参考 `scripts/md_to_ipynb_converter.py`
 
 ## 常见任务
@@ -188,21 +196,6 @@ production.carried_out_by = leonardo
 print(model.factory.toString(painting, compact=False))
 ```
 
-### 转换你自己的 Markdown 文档
-
-```python
-# 安装必要依赖
-pip install nbformat
-
-# 转换单个文件
-python -c "from scripts.md_to_ipynb_converter import convert_file; \
-    convert_file('你的文档.md', '输出.ipynb')"
-
-# 批量转换目录
-python -c "from scripts.md_to_ipynb_converter import convert_directory; \
-    convert_directory('源目录', '目标目录')"
-```
-
 ## 术语对照（重要）
 
 在阅读本文档时，以下术语会频繁出现：
@@ -214,26 +207,10 @@ python -c "from scripts.md_to_ipynb_converter import convert_directory; \
 | Provenance | 流传历史 | 所有权的转移历史 |
 | Actor | 行动者 | 人或组织 |
 | Collection | 集藏 | 博物馆的收藏 |
+| Production | 创作/生产 | 艺术品的创造过程 |
+| Acquisition | 获得/收藏 | 所有权的获取 |
 
 完整术语表请参考 [`术语对照表.md`](术语对照表.md)。
-
-## 贡献指南
-
-### 翻译改进
-
-如果你发现翻译问题或有改进建议：
-
-1. 查看 [`术语对照表.md`](术语对照表.md) 确认标准译法
-2. 在 GitHub 上提交 Issue 或 Pull Request
-3. 说明修改理由和参考依据
-
-### 转换工具改进
-
-如果你想改进转换脚本：
-
-1. 修改 `scripts/md_to_ipynb_converter.py`
-2. 确保向后兼容
-3. 添加测试用例
 
 ## 原项目信息
 
@@ -245,3 +222,9 @@ python -c "from scripts.md_to_ipynb_converter import convert_directory; \
 
 感谢 Linked Art 社区，特别是 Rob Sanderson 和所有贡献者。
 
+---
+
+**项目统计**：
+- 中文 Notebook: 171 个
+- 英文 Notebook: 170 个
+- 覆盖主题: 数据模型 (17) + API (2)

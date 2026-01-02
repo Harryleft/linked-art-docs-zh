@@ -2,25 +2,24 @@
 
 ## Why This Project Exists?
 
-Imagine you're building a digital archive system for a GLAM. You need to track: who created each artwork, when and where it was made, which collectors owned it, what exhibitions it appeared in... If this information is scattered across different spreadsheets and databases, it's hard to maintain and impossible to share with other institutions.
+Imagine you're building a digital archive system for a GLAM institution. You need to track: who created each artwork, when and where it was made, which collectors owned it, what exhibitions it appeared in... If this information is scattered across different spreadsheets and databases, it's hard to maintain and impossible to share with other institutions.
 
 This is the problem Linked Art solves—it provides a **standard data model** that makes recording and sharing cultural heritage information simple. Just as libraries use ISBN standards to identify books, Linked Art lets museums, galleries, and archives describe their collections using a common "language."
 
 ## What This Project Provides
 
-**1. Complete Chinese Translation**
-- 187 translated documents covering data model, API specifications, and implementation guides
-- All translations follow professional terminology standards from museum studies and art history
+This is a **pure Jupyter Notebook interactive learning environment** containing 341 executable notebooks (171 Chinese + 170 English) focused on Linked Art Data Model and API specifications.
 
-**2. Interactive Jupyter Notebooks**
-- 257 Notebooks containing all code examples
-- Every code block can be run, modified, and experimented with directly
-- Automatically displays generated JSON-LD data for intuitive understanding of data structures
-- **Standardized Code**: All code examples follow a consistent 5-step template with clear English comments explaining "Who/What/Why"
+**Key Features**:
 
-**3. One-Click Conversion Tool**
-- Python script to convert Markdown to Notebook anytime
-- Supports batch conversion for customizing learning materials
+1. **Learn by Doing** - Every Notebook is executable with code that runs in real-time, allowing modification and experimentation
+2. **Bilingual Support** - Available in both Chinese and English to meet different learning needs
+3. **Standardized Code** - All code examples follow a consistent 5-step template for clarity
+4. **Automatic Output** - Each code block automatically displays generated JSON-LD for intuitive understanding of data structures
+
+**Coverage**:
+- **Data Model**: 17 topics including objects, actors, provenance, exhibitions, and more
+- **API Specification**: Complete RESTful API documentation and relationship property definitions
 
 ## Quick Start
 
@@ -29,7 +28,6 @@ This is the problem Linked Art solves—it provides a **standard data model** th
 Open your terminal and run:
 
 ```bash
-# Install Python dependencies
 pip install cromulent jupyter
 ```
 
@@ -38,8 +36,6 @@ pip install cromulent jupyter
 - `jupyter` - Interactive Notebook environment
 
 ### 2. Open the Learning Environment
-
-Choose your preference:
 
 **Chinese version**:
 ```bash
@@ -102,12 +98,24 @@ When you run it, you'll see structured JSON output:
 
 ```
 linked-art-docs-zh/
-├── docs/              # Original English documentation (preserved)
-├── docs-zh/           # Chinese translations
-├── notebooks/         # Chinese Notebooks
-├── notebooks-en/      # English Notebooks
+├── notebooks/         # Chinese Jupyter Notebooks (171 files)
+│   ├── 00-README.ipynb    # Navigation index & entry point
+│   ├── index.ipynb        # Table of contents
+│   ├── model/             # Data Model documentation
+│   │   ├── actor/        # Actors (persons, groups)
+│   │   ├── object/       # Objects (production, ownership, physical properties)
+│   │   ├── provenance/   # Provenance (acquisition, transfer, custody)
+│   │   ├── place/        # Places
+│   │   ├── event/        # Events
+│   │   ├── exhibition/   # Exhibitions
+│   │   └── ...
+│   └── api/               # API specification
+│       ├── 1.0/          # Version 1.0 endpoint documentation
+│       └── rels/         # Relationship property definitions
+├── notebooks-en/      # English Jupyter Notebooks (170 files)
+│   └── (same structure)
 ├── scripts/           # Conversion utilities
-└── 术语对照表.md        # Chinese terminology standard
+└── 术语对照表.md        # Terminology reference
 ```
 
 ## Core Concepts at a Glance
@@ -142,13 +150,13 @@ A data model defines how to describe a cultural heritage object. For example, de
 ### Intermediate Users
 
 1. **Dive Deeper**: `notebooks-en/model/provenance/index.ipynb`
-2. **Learn the API**: `notebooks-en/api/1.0/endpoint/index.ipynb`
-3. **Build Your Own Apps**: Reference `notebooks-en/cookbook/`
+2. **Learn the API**: `notebooks-en/api/1.0/index.ipynb`
+3. **Build Your Own Apps**: Reference API endpoint documentation
 
 ### Developers
 
 1. **Read API Documentation**: `notebooks-en/api/1.0/index.ipynb`
-2. **View Implementation Examples**: `notebooks-en/example/index.ipynb`
+2. **View Relationship Properties**: `notebooks-en/api/rels/1/index.ipynb`
 3. **Use Conversion Tools**: Reference `scripts/md_to_ipynb_converter.py`
 
 ## Common Tasks
@@ -188,21 +196,6 @@ production.carried_out_by = leonardo
 print(model.factory.toString(painting, compact=False))
 ```
 
-### Convert Your Own Markdown Documents
-
-```python
-# Install required dependencies
-pip install nbformat
-
-# Convert single file
-python -c "from scripts.md_to_ipynb_converter import convert_file; \
-    convert_file('your-doc.md', 'output.ipynb')"
-
-# Batch convert directory
-python -c "from scripts.md_to_ipynb_converter import convert_directory; \
-    convert_directory('source-dir', 'target-dir')"
-```
-
 ## Terminology Guide
 
 When reading this documentation, you'll frequently encounter these terms:
@@ -214,26 +207,10 @@ When reading this documentation, you'll frequently encounter these terms:
 | Provenance | 流传历史 | Transfer of ownership history |
 | Actor | 行动者 | Person or group |
 | Collection | 集藏 | Museum's holdings |
+| Production | 创作/生产 | Creation process of artwork |
+| Acquisition | 获得/收藏 | Acquisition of ownership |
 
 For complete terminology, refer to [`术语对照表.md`](术语对照表.md).
-
-## Contributing
-
-### Translation Improvements
-
-If you find translation issues or have improvement suggestions:
-
-1. Check [`术语对照表.md`](术语对照表.md) for standard translations
-2. Open a GitHub Issue or Pull Request
-3. Explain the reason for changes and provide references
-
-### Conversion Tool Improvements
-
-If you want to improve the conversion script:
-
-1. Modify `scripts/md_to_ipynb_converter.py`
-2. Ensure backward compatibility
-3. Add test cases
 
 ## Original Project
 
@@ -245,3 +222,9 @@ If you want to improve the conversion script:
 
 Thanks to the Linked Art community, especially Rob Sanderson and all contributors.
 
+---
+
+**Project Statistics**:
+- Chinese Notebooks: 171 files
+- English Notebooks: 170 files
+- Coverage: Data Model (17) + API (2)

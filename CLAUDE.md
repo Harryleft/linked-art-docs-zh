@@ -4,105 +4,97 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Chinese translation project for Linked Art documentation with interactive Jupyter Notebook versions. The project is **100% complete** with 187 translated documents and 257 generated Notebooks.
+This is a **Jupyter Notebook-based interactive learning environment** for Linked Art documentation. The project contains executable notebooks covering the Linked Art Data Model and API specifications, available in both Chinese and English.
 
-**Project Status**: Translation complete, Jupyter Notebooks generated
-- Chinese translations: `docs-zh/` (187 files)
-- Chinese Notebooks: `notebooks/` (70 files - model + api)
-- English Notebooks: `notebooks-en/` (187 files - all docs)
-- Conversion tool: `scripts/md_to_ipynb_converter.py`
+**Project Status**: Complete - Interactive Notebooks Only
+- Chinese Notebooks: `notebooks/` (171 files)
+- English Notebooks: `notebooks-en/` (170 files)
+- Coverage: Data Model + API documentation
 
 ## Project Structure
 
 ```
 linked-art-docs-zh/
-├── docs/              # Original English documentation (preserve - don't modify)
-├── docs-zh/           # Chinese translations (complete)
-├── notebooks/         # Chinese Jupyter Notebooks (complete)
-├── notebooks-en/      # English Jupyter Notebooks (complete)
+├── notebooks/         # Chinese Jupyter Notebooks
+│   ├── 00-README.ipynb    # Navigation & entry point
+│   ├── model/             # Data Model documentation
+│   │   ├── actor/        # Persons, Groups
+│   │   ├── object/       # Physical objects, production, ownership
+│   │   ├── provenance/   # Acquisition, movement, custody
+│   │   ├── place/        # Locations
+│   │   └── ...
+│   └── api/               # API specification
+│       ├── 1.0/          # Version 1.0 endpoints
+│       └── rels/         # Relationship properties
+├── notebooks-en/      # English Jupyter Notebooks (same structure)
 ├── scripts/           # Conversion utilities
-├── 术语对照表.md      # Chinese terminology standard (reference for new translations)
-└── 翻译任务计划.md    # Translation tracking (archived - project complete)
+└── 术语对照表.md      # Chinese terminology standard (reference)
 ```
 
-## Jupyter Notebook Conversion
+## Jupyter Notebook Format
 
-### Conversion Tool
+### Code Cell Standard (5-Step Template)
 
-**Location**: `scripts/md_to_ipynb_converter.py`
-
-**Key Functions**:
-- `convert_file(md_path, ipynb_path)` - Convert single Markdown to Notebook
-- `convert_directory(src_dir, dst_dir)` - Batch convert directory
-
-**Usage**:
-```python
-# Single file
-python -c "from scripts.md_to_ipynb_converter import convert_file; \
-    convert_file('docs/model/index.md', 'notebooks/model/index.ipynb')"
-
-# Batch directory
-python -c "from scripts.md_to_ipynb_converter import convert_directory; \
-    convert_directory('docs/model', 'notebooks/model')"
-```
-
-### Conversion Architecture
-
-The converter processes Markdown files with the following pipeline:
-
-1. **Parse YAML front matter** (`title`, `up_href`, `up_label`)
-2. **Split content by code fences** - Identify ```crom blocks vs other content
-3. **Enhance crom code blocks**:
-   - Auto-add `from cromulent import model, vocab` if missing
-   - Detect main variable (e.g., `top`, `obj`) via regex pattern matching
-   - Append `print(model.factory.toString(var, compact=False))` for output
-4. **Create Jupyter structure** using `nbformat.v4` API
-5. **Write as JSON** - Ensures proper source format (array of lines without trailing \n)
-
-**Critical Implementation Detail**:
-- The source field must be a string (not array) with embedded `\n` characters
-- nbformat 4.5+ accepts this format and displays code correctly
-- Using `json.dump()` instead of `nbformat.write()` to control format
-
-### Crom Code Enhancement
-
-The `enhance_crom_code()` function modifies crom code blocks:
+All executable code blocks follow a consistent 5-step structure:
 
 ```python
-# Original crom code:
-top = model.HumanMadeObject(ident="example", label="Example")
-prod = model.Production()
-
-# Enhanced output:
-# 导入 cromulent 库
+# Step 1: Import cromulent library
 from cromulent import model, vocab
 
-top = model.HumanMadeObject(ident="example", label="Example")
-prod = model.Production()
+# Step 2: Configure factory settings
+model.factory.auto_assign_id = False
+vocab.add_attribute_assignment_check()
 
-# 展示生成的 JSON-LD
-print(model.factory.toString(top, compact=False))
+# Step 3: Create the main object
+# Who: [Actor involved]
+# What: [Entity being created]
+# Why: [Purpose of this code]
+main_object = model.HumanMadeObject(ident="example", label="Example")
+
+# Step 4: Create related objects and relationships
+# [Inline comments explaining each relationship]
+related = model.Person(ident="artist", label="Artist")
+production = model.Production()
+production.carried_out_by = related
+main_object.produced_by = production
+
+# Step 5: Display the generated JSON data
+print(model.factory.toString(main_object, compact=False))
+```
+
+### Critical Implementation Details
+
+- Every executable cell includes `from cromulent import model, vocab`
+- JSON output uses `model.factory.toString()` with `compact=False` for readability
+- Comments use **English** for consistency (even in Chinese notebooks)
+- The `# Who/What/Why` format provides context for each code example
+
+## Running Notebooks
+
+### Environment Setup
+
+```bash
+pip install cromulent jupyter
+```
+
+### Entry Points
+
+- **Chinese**: `notebooks/00-README.ipynb`
+- **English**: `notebooks-en/00-README.ipynb`
+
+### Execution
+
+```bash
+# Chinese version
+jupyter lab notebooks
+
+# English version
+jupyter lab notebooks-en
 ```
 
 ## Translation Principles
 
-When adding new translations or updating existing ones:
-
-### Core Principles (from 术语对照表.md)
-
-1. **意境相通 > 字面对应** - Capture the spirit, not just the words
-2. **引发共鸣 > 准确传达** - Evoke resonance in the target audience
-3. **文化重构 > 机械转换** - Reconstruct culturally, don't just translate
-4. **余味悠长 > 一目了然** - Leave room for interpretation
-
-### Required Resources
-
-**Always reference** `术语对照表.md` before translating:
-- 11 categories of professional terminology
-- Translation principles and usage guidelines
-- Selection rationale for professional terms
-
-### Critical Terminology
+When updating notebook content, reference [`术语对照表.md`](术语对照表.md):
 
 | English | Chinese |
 |---------|---------|
@@ -112,40 +104,27 @@ When adding new translations or updating existing ones:
 | Provenance | 流传历史 |
 | Collections | 集藏 |
 | Actors | 行动者 |
-| Interoperability | 互操作性 |
 | Production | 创作/生产 |
-| Acquisition | 获得/收藏 |
 
-### File Handling Rules
+**Core Translation Philosophy**:
+1. **意境相通 > 字面对应** - Capture the spirit, not just words
+2. **引发共鸣 > 准确传达** - Evoke resonance in target audience
+3. **文化重构 > 机械转换** - Reconstruct culturally
+4. **余味悠长 > 一目了然** - Leave room for interpretation
 
-- **Never modify** files in `docs/` (original English source)
-- **Always preserve** YAML front matter in translated files
-- **Maintain same file names** in `docs-zh/` as in `docs/` for internal links
-- **Keep code blocks in English** - Only translate explanatory text
-- **Translate link text** but preserve file paths
+## Conversion Tool
 
-## Running Notebooks
+**Location**: `scripts/md_to_ipynb_converter.py`
 
-### Environment Setup
+**Key Functions**:
+- `convert_file(md_path, ipynb_path)` - Convert single Markdown to Notebook
+- `convert_directory(src_dir, dst_dir)` - Batch convert directory
 
-```bash
-pip install cromulent
-pip install jupyter
-```
-
-### Entry Points
-
-- **Chinese**: `notebooks/00-导航索引.ipynb`
-- **English**: `notebooks-en/00-导航索引.ipynb`
-
-### Code Execution
-
-Every Notebook automatically includes:
-```python
-from cromulent import model, vocab
-import json
-model.factory.base_url = 'http://test.com/museum/'
-```
+**Features**:
+- Parses YAML front matter (`title`, `up_href`, `up_label`)
+- Auto-adds cromulent imports to code blocks
+- Detects main variables for JSON output
+- Creates proper Jupyter structure using nbformat.v4
 
 ## Original Project References
 
